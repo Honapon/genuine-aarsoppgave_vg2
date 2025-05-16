@@ -1,6 +1,6 @@
 # STIIM Webapplikasjon
 
-STIIM er en webapplikasjon bygget med Flask som lar brukere opprette kontoer, logge inn og få tilgang til en hjem-side. Applikasjonen bruker en MySQL-database for å lagre brukerinformasjon på en sikker måte.
+STIIM er en webapplikasjon bygget med Flask som lar brukere opprette kontoer, logge inn og få tilgang til en hjem-side. Applikasjonen bruker en mariadb-database for å lagre brukerinformasjon på en sikker måte.
 
 ## Funksjonalitet
 
@@ -13,7 +13,7 @@ STIIM er en webapplikasjon bygget med Flask som lar brukere opprette kontoer, lo
 ## Teknologier brukt
 
 - **Backend**: Flask (Python)
-- **Database**: MySQL
+- **Database**: Mariadb
 - **Frontend**: HTML, CSS
 
 ## Hvordan kjøre prosjektet
