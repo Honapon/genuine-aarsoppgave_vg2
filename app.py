@@ -7,25 +7,15 @@ from data import dbconnect
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  
 
-connection = dbconnect()
-if connection is None:
-    print("Failed to connect to the database.")
-else:
-    print("Connected to the database.") 
-    connection.close()
 
     
 @app.route('/createAcc', methods=['POST', 'GET'])
 def createAccc():
     if request.method == 'POST':
         
-        print("form data:", request.form)  # Debugging line
-        
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
-        
-        print(f"username: {username}, email: {email}, password: {password}")  # Debugging line
         
         if not username or not email or not password:
             flash('All fields are required', 'error')
@@ -50,7 +40,7 @@ def logInn():
         if authenticate_user(email, password):
             session['email'] = email
             flash('You have been logged in')
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
         else:
             flash('Invalid username or password')
             return render_template('logInn.html')
@@ -105,12 +95,10 @@ def create_user(username, email, hashed_password):
     try:
         cursor = connection.cursor()
         query = "INSERT INTO brukere (username, email, password) VALUES (%s, %s, %s)"
-        print(f"Executing query: {query} with values: {username}, {email}, {hashed_password}")  # Debugging line
         cursor.execute(query, (username, email, hashed_password))
         connection.commit()
         return True
     except Exception as e:
-        print(f"Error executin query: {e}")
         if 'Duplicate entry' in str(e):
             flash('Email already exists', 'error')
             return False
