@@ -12,18 +12,22 @@
     </div>
 
     <div class="navbar">
-        <a href="/">Home</a>
-        <a href="/logInn.html">Log Inn</a>
+        <a href="{{url_for('index')}}">Home</a>
+        <a href="{{url_for('logInn')}}">Log Inn</a>
     </div>
 
     <div class="content">
-         <form action="" method="POST">
+         <form action="{{url_for('createAccc')}}" method="POST">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username">
+            <input type="text" name="username" id="username" required>
+            <br>
             <label for="email">Email</label>
-            <input type="text" name="email" id="email">
+            <input type="text" name="email" id="email" required>
+            <br>
             <label for="password">password</label>
-            <input type="text" name="password" id="password">
+            <input type="text" name="password" id="password" required>
+            <br>
+            <button type="submit">Create account </button>
         </form>
     </div>
 </body>

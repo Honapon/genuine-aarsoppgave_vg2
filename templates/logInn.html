@@ -17,13 +17,16 @@
 
     <div class="content">
 
-        <form action="" method="POST">
+        <form action="/login" method="POST">
             <label for="email">Email</label>
             <input type="text" name="email" id="email">
+            <br>
             <label for="password">password</label>
             <input type="text" name="password" id="password">
+            <br>
+            <button type="submit">Log inn</button>
         </form>
-        <a href="createAcc.html">create account</a>
+        <a href="{{url_for('createAccc')}}">create account</a>
 
     </div>
 </body>
