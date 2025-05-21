@@ -111,4 +111,3 @@ def create_user(username, email, hashed_password):
             connection.close()
 if __name__ == '__main__':
     app.run(debug=True)
-    

@@ -8,8 +8,6 @@ mydb = {
     'database': 'stiim'
 }
 
-
-
 # Funksjon for å opprette en tilkobling til databasen
 def dbconnect():
     try:
