@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from bcrypt import hashpw, gensalt, checkpw
 from data import dbconnect
+import re
 
 
 
@@ -10,6 +11,8 @@ app.secret_key = 'your_secret_key'
 
     
 @app.route('/createAcc', methods=['POST', 'GET'])
+
+        
 def createAccc():
     if request.method == 'POST':
         
@@ -20,6 +23,15 @@ def createAccc():
         if not username or not email or not password:
             flash('All fields are required', 'error')
             return render_template('createAcc.html')
+        
+        email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if not re.match(email_regex, email):
+            flash('E-postadressen er ikke gyldig', 'error')
+            return render_template('createAcc.html')
+        
+        if email_exists(email):
+            flash('Email already exists', 'error')
+            return render_template('createAcc.html')
 
         hashed_password = hashpw(password.encode('utf-8'), gensalt())
 
@@ -28,6 +40,10 @@ def createAccc():
             return redirect(url_for('logInn'))
         else:
             flash('Error creating user', 'error')
+            
+        if not all([username, email, password]):
+            return('All fields are required', 'error')
+            
             
     return render_template('createAcc.html')
         
@@ -45,6 +61,7 @@ def logInn():
             flash('Invalid username or password')
             return render_template('logInn.html')
     return render_template('logInn.html')    
+
 @app.route('/hjem')
 def home():
     if 'email' in session:
@@ -109,5 +126,22 @@ def create_user(username, email, hashed_password):
         if connection.is_connected():
             cursor.close()
             connection.close()
+            
+            
+def email_exists(email):
+    connection = dbconnect()
+    if connection is None:
+        return False
+    try:
+        cursor = connection.cursor()
+        query = "SELECT id FROM brukere WHERE email = %s"
+        cursor.execute(query, (email,))
+        result = cursor.fetchone()
+        return result is not None
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            
 if __name__ == '__main__':
     app.run(debug=True)
